@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    boolean existsByGroundGroundIdAndBookingDate(Long groundId, LocalDate bookingDate);
+    boolean existsByGround_GroundIdAndBookingDate(Long groundId, LocalDate bookingDate);
 }

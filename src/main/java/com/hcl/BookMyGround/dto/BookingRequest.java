@@ -11,11 +11,10 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingDTO {
-    private Long bookingId;
-    private UserDTO user;
+public class BookingRequest {
+    private Long userId;
+    private Long groundId;
     private LocalDate bookingDate;
-    private String status;
     private double totalAmount;
-    private PaymentDTO payment;
+    private String paymentMethod;
 }

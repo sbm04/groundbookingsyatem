@@ -3,6 +3,8 @@ package com.hcl.BookMyGround.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Getter
@@ -21,5 +23,6 @@ public class Payment {
     private double amount;
     private String paymentMethod;
     private String paymentStatus;
+    private LocalDate paymentDate;
 
 }

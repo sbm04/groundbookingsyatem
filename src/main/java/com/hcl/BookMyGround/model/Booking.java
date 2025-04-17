@@ -1,10 +1,10 @@
 package com.hcl.BookMyGround.model;
 
 import java.util.*;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.hcl.BookMyGround.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,9 +32,9 @@ public class Booking {
     private Ground ground;
 
     private LocalDate bookingDate;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
     private double totalAmount;
-
     @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
     @JsonIgnore
     private Payment payment;
