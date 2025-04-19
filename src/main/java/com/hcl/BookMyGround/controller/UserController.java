@@ -38,4 +38,16 @@ public class UserController {
         List<Booking> bookings = userService.getUserBookings(userId);
         return ResponseEntity.ok(bookings);
     }
+
+    @GetMapping("/{userId}/bookings/upcoming")
+    public ResponseEntity<List<Booking>> getUpcomingBookings(@PathVariable Long userId) {
+        List<Booking> upcoming = userService.getUpcomingBookings(userId);
+        return ResponseEntity.ok(upcoming);
+    }
+
+    @GetMapping("/{userId}/bookings/past")
+    public ResponseEntity<List<Booking>> getPastBookings(@PathVariable Long userId) {
+        List<Booking> past = userService.getPastBookings(userId);
+        return ResponseEntity.ok(past);
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.*;
 
@@ -48,4 +49,13 @@ public class UserService {
     public List<Booking> getUserBookings(Long userId) {
         return bookingRepository.findByUserUserId(userId);
     }
+
+    public List<Booking> getUpcomingBookings(Long userId) {
+        return bookingRepository.findByUserUserIdAndBookingDateAfter(userId, LocalDate.now());
+    }
+
+    public List<Booking> getPastBookings(Long userId) {
+        return bookingRepository.findByUserUserIdAndBookingDateBefore(userId, LocalDate.now());
+    }
+
 }
