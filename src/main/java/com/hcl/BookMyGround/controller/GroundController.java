@@ -24,4 +24,7 @@ public class GroundController {
     public List<Ground> getAllGrounds() {
         return groundService.getAllGrounds();
     }
+    // find ground city wise and type cricket
+
+
 }

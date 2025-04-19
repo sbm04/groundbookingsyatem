@@ -1,15 +1,14 @@
 package com.hcl.BookMyGround.controller;
 
 import com.hcl.BookMyGround.dto.UserDTO;
+import com.hcl.BookMyGround.model.Booking;
 import com.hcl.BookMyGround.model.User;
 import com.hcl.BookMyGround.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 
 import java.util.Map;
@@ -30,5 +29,13 @@ public class UserController {
         return userService.login(credentials.get("email"), credentials.get("password"))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+    //user can abe to see past booking and upcomming booking
+
+    @GetMapping("/{userId}/bookings")
+    public ResponseEntity<List<Booking>> getAllBookings(@PathVariable Long userId) {
+        List<Booking> bookings = userService.getUserBookings(userId);
+        return ResponseEntity.ok(bookings);
     }
 }

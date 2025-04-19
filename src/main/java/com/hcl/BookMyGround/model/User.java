@@ -29,7 +29,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore // Prevents infinite recursion
+    @JsonIgnore
     private List<Booking> bookings = new ArrayList<>();
 
 

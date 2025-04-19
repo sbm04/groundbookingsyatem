@@ -33,6 +33,7 @@ public class Booking {
 
     private LocalDate bookingDate;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private BookingStatus status;
     private double totalAmount;
     @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)

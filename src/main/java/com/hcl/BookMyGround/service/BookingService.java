@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
@@ -31,19 +32,19 @@ public class BookingService {
     private PaymentService paymentService;
 
     public BookingDTO createBooking(Long userId, Long groundId, Booking booking, Payment payment) {
-        // Retrieve user and ground entities
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
         Ground ground = groundRepository.findById(groundId)
                 .orElseThrow(() -> new IllegalArgumentException("Ground not found with ID: " + groundId));
 
 
-        // Validate booking date
+
         if (booking.getBookingDate().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Booking date cannot be in the past.");
         }
 
-        // Check if the ground is already booked on the selected date
+
         boolean isBooked = bookingRepository.existsByGround_GroundIdAndBookingDate(groundId, booking.getBookingDate());
         if (isBooked) {
             throw new IllegalArgumentException("The ground is already booked for the selected date.");
@@ -51,7 +52,6 @@ public class BookingService {
 
 
 
-        // Process payment
         payment.setAmount(booking.getTotalAmount());
         payment.setPaymentStatus("PENDING");
         Payment processedPayment = paymentService.processPayment(payment);
@@ -60,28 +60,28 @@ public class BookingService {
             throw new IllegalArgumentException("Payment failed. Booking cannot be completed.");
         }
 
-        // Set booking details
+
         booking.setUser(user);
         booking.setGround(ground);
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setPayment(processedPayment);
 
-        // Save booking
+
         Booking savedBooking = bookingRepository.save(booking);
 
-        // Associate payment with booking
+
         processedPayment.setBooking(savedBooking);
         paymentService.updatePayment(processedPayment);
-
-        // Map to BookingDTO
         return mapToDTO(savedBooking);
     }
+
+
 
     private BookingDTO mapToDTO(Booking booking) {
         User user = booking.getUser();
         UserDTO userDTO = new UserDTO(user.getUserId(), user.getName(), user.getContactNumber(), user.getEmail());
 
-        // 🔧 New block to map Payment entity to PaymentDTO
+
         Payment payment = booking.getPayment();
         PaymentDTO paymentDTO = null;
         if (payment != null) {
@@ -93,14 +93,14 @@ public class BookingService {
             paymentDTO.setAmount(payment.getAmount());
         }
 
-        // 🔧 Updated to include paymentDTO
+
         BookingDTO dto = new BookingDTO();
         dto.setBookingId(booking.getBookingId());
         dto.setUser(userDTO);
         dto.setBookingDate(booking.getBookingDate());
         dto.setStatus(String.valueOf(booking.getStatus()));
         dto.setTotalAmount(booking.getTotalAmount());
-        dto.setPayment(paymentDTO); // 🔧 Set payment info
+        dto.setPayment(paymentDTO);
 
         return dto;
     }
