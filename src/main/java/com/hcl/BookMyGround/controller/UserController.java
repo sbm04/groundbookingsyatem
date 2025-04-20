@@ -19,6 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody User user) {
         UserDTO userDTO = userService.register(user);
@@ -50,4 +51,5 @@ public class UserController {
         List<Booking> past = userService.getPastBookings(userId);
         return ResponseEntity.ok(past);
     }
+
 }

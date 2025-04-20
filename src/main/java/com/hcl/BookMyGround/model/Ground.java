@@ -26,6 +26,10 @@ public class Ground {
     private String contactPerson;
     private String contactNumber;
 
+    @ManyToMany(mappedBy = "availableGrounds")
+    @JsonIgnore
+    private List<TimeSlot> timeSlots;
+
     @OneToMany(mappedBy = "ground", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Booking> bookings = new ArrayList<>();

@@ -31,6 +31,10 @@ public class Booking {
     @JoinColumn(name = "ground_id", nullable = false)
     private Ground ground;
 
+    @ManyToOne
+    @JoinColumn(name = "timeslot_id", nullable = false)
+    private TimeSlot timeSlot;
+
     private LocalDate bookingDate;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
