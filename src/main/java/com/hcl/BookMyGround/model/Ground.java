@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalTime;
 import java.util.*;
 @Entity
 @Getter
@@ -26,9 +27,9 @@ public class Ground {
     private String contactPerson;
     private String contactNumber;
 
-    @ManyToMany(mappedBy = "availableGrounds")
+    @ManyToMany(mappedBy = "availableGrounds", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<TimeSlot> timeSlots;
+    private List<TimeSlot> timeSlots = new ArrayList<>();
 
     @OneToMany(mappedBy = "ground", cascade = CascadeType.ALL)
     @JsonIgnore

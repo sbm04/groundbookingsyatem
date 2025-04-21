@@ -12,7 +12,9 @@ public class GroundService {
     private GroundRepository groundRepository;
 
     public Ground addGround(Ground ground) {
-        return groundRepository.save(ground);
+        Ground savedGround = groundRepository.save(ground);
+//        savedGround.createTimeSlots(); // Automatically create time slots
+        return savedGround;
     }
 
     public List<Ground> getAllGrounds() {

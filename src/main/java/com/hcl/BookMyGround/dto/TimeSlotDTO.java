@@ -16,5 +16,5 @@ import java.time.LocalTime;
 public class TimeSlotDTO {
     private LocalTime startTime;
     private LocalTime endTime;
-    private List<Long> groundIds;
+
 }

@@ -22,19 +22,22 @@ public class BookingController {
     @PostMapping
     public ResponseEntity<?> createBooking(@RequestBody Map<String, Object> bookingData) {
         try {
-            Long userId = Long.valueOf(bookingData.get("userId").toString());
-            Long groundId = Long.valueOf(bookingData.get("groundId").toString());
-            Long timeSlotId = Long.valueOf(bookingData.get("timeSlotId").toString());
-            LocalDate bookingDate = LocalDate.parse(bookingData.get("bookingDate").toString());
-            String statusInput = bookingData.get("status").toString();
-            double totalAmount = Double.parseDouble(bookingData.get("totalAmount").toString());
-            String paymentMethod = bookingData.get("paymentMethod").toString();
+            // Retrieve and validate each field
+            Long userId = bookingData.containsKey("userId") ? Long.valueOf(bookingData.get("userId").toString()) : null;
+            Long groundId = bookingData.containsKey("groundId") ? Long.valueOf(bookingData.get("groundId").toString()) : null;
+            Long timeSlotId = bookingData.containsKey("slotId") ? Long.valueOf(bookingData.get("slotId").toString()) : null;
+            LocalDate bookingDate = bookingData.containsKey("bookingDate") ? LocalDate.parse(bookingData.get("bookingDate").toString()) : null;
+            Double totalAmount = bookingData.containsKey("totalAmount") ? Double.parseDouble(bookingData.get("totalAmount").toString()) : null;
+            String paymentMethod = bookingData.containsKey("paymentMethod") ? bookingData.get("paymentMethod").toString() : null;
 
-            BookingStatus status = BookingStatus.valueOf(statusInput.toUpperCase());
+            // Check for null values and throw an error if any required field is missing
+            if (userId == null || groundId == null || timeSlotId == null || bookingDate == null || totalAmount == null || paymentMethod == null) {
+                return ResponseEntity.badRequest().body("Missing required fields in the booking data.");
+            }
 
             Booking booking = new Booking();
             booking.setBookingDate(bookingDate);
-            booking.setStatus(status);
+            booking.setStatus(BookingStatus.CONFIRMED);
             booking.setTotalAmount(totalAmount);
 
             Payment payment = new Payment();

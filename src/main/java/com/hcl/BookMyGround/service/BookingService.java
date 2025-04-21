@@ -31,7 +31,7 @@ public class BookingService {
     private UserRepository userRepository;
 
     @Autowired
-    private TimeSlotRepository timeSlotRepository; // ✅ New
+    private TimeSlotRepository timeSlotRepository;
 
     @Autowired
     private PaymentService paymentService;
@@ -64,7 +64,7 @@ public class BookingService {
 
         booking.setUser(user);
         booking.setGround(ground);
-        booking.setTimeSlot(timeSlot); // ✅ Set time slot
+        booking.setTimeSlot(timeSlot);
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setPayment(processedPayment);
 

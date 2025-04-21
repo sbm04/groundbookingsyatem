@@ -20,15 +20,12 @@ public class TimeSlotService {
 
 
     public TimeSlot createTimeSlot(TimeSlotDTO timeSlotDTO) {
-        List<Ground> grounds = timeSlotDTO.getGroundIds().stream()
-                .map(id -> groundRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Ground not found with ID: " + id)))
-                .toList();
+
 
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setStartTime(timeSlotDTO.getStartTime());
         timeSlot.setEndTime(timeSlotDTO.getEndTime());
-        timeSlot.setAvailableGrounds(grounds);
+
 
         return timeSlotRepository.save(timeSlot);
     }
