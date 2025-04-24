@@ -50,12 +50,8 @@ public class UserService {
         return bookingRepository.findByUserUserId(userId);
     }
 
-    public List<Booking> getUpcomingBookings(Long userId) {
-        return bookingRepository.findByUserUserIdAndBookingDateAfter(userId, LocalDate.now());
-    }
 
-    public List<Booking> getPastBookings(Long userId) {
-        return bookingRepository.findByUserUserIdAndBookingDateBefore(userId, LocalDate.now());
-    }
+
+
 
 }

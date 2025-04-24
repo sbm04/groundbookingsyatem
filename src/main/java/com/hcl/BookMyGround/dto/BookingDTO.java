@@ -1,21 +1,22 @@
 package com.hcl.BookMyGround.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.hcl.BookMyGround.enums.BookingStatus;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class BookingDTO {
     private Long bookingId;
     private UserDTO user;
     private LocalDate bookingDate;
-    private String status;
+    private BookingStatus status;
     private double totalAmount;
+    private GroundDTO ground;
+    private TimeSlotDTO timeSlot;
     private PaymentDTO payment;
 }

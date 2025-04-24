@@ -1,18 +1,17 @@
 package com.hcl.BookMyGround.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalTime;
 
-@Getter
+@Data
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TimeSlotDTO {
-    private Long id;
+public class TimeSlotAvailabilityDTO {
+    private Long slotId;
     private LocalTime startTime;
     private LocalTime endTime;
+    private boolean booked;
 }

@@ -1,8 +1,10 @@
 package com.hcl.BookMyGround.controller;
 
+import com.hcl.BookMyGround.dto.BookingDTO;
 import com.hcl.BookMyGround.dto.UserDTO;
 import com.hcl.BookMyGround.model.Booking;
 import com.hcl.BookMyGround.model.User;
+import com.hcl.BookMyGround.service.BookingService;
 import com.hcl.BookMyGround.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private  BookingService bookingService;
 
 
     @PostMapping("/register")
@@ -40,16 +44,12 @@ public class UserController {
         return ResponseEntity.ok(bookings);
     }
 
-    @GetMapping("/{userId}/bookings/upcoming")
-    public ResponseEntity<List<Booking>> getUpcomingBookings(@PathVariable Long userId) {
-        List<Booking> upcoming = userService.getUpcomingBookings(userId);
-        return ResponseEntity.ok(upcoming);
-    }
 
-    @GetMapping("/{userId}/bookings/past")
-    public ResponseEntity<List<Booking>> getPastBookings(@PathVariable Long userId) {
-        List<Booking> past = userService.getPastBookings(userId);
-        return ResponseEntity.ok(past);
-    }
+
+
+
+
+
+
 
 }

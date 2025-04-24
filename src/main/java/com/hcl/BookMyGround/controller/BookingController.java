@@ -1,6 +1,7 @@
 package com.hcl.BookMyGround.controller;
 
 import com.hcl.BookMyGround.dto.BookingDTO;
+import com.hcl.BookMyGround.dto.TimeSlotAvailabilityDTO;
 import com.hcl.BookMyGround.enums.BookingStatus;
 import com.hcl.BookMyGround.model.Booking;
 import com.hcl.BookMyGround.model.Payment;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -59,6 +61,24 @@ public class BookingController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/availability")
+    public ResponseEntity<?> getSlotAvailability(
+            @RequestParam Long groundId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+
+        List<TimeSlotAvailabilityDTO> availability = bookingService.getAvailableSlotsForGround(groundId, date);
+        return ResponseEntity.ok(availability);
+    }
+
+    @GetMapping("/{userId}/bookings/upcoming")
+    public ResponseEntity<List<BookingDTO>> getUpcomingBookings(@PathVariable Long userId) {
+        return ResponseEntity.ok(bookingService.getUpcomingBookingsByUser(userId));
+    }
+
+    @GetMapping("/{userId}/past")
+    public ResponseEntity<List<BookingDTO>> getPastBookings(@PathVariable Long userId) {
+        return ResponseEntity.ok(bookingService.getPastBookings(userId));
+    }
 
 
 

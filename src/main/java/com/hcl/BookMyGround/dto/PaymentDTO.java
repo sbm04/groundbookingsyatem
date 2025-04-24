@@ -7,14 +7,14 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDTO {
     private Long paymentId;
+    private double amount;
+    private String paymentMethod;
     private String paymentStatus;
     private LocalDate paymentDate;
-    private String paymentMethod;
-    private double amount;
 }

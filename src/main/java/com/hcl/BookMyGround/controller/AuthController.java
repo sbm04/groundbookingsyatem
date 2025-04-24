@@ -3,6 +3,9 @@ package com.hcl.BookMyGround.controller;
 
 import com.hcl.BookMyGround.dto.JwtRequest;
 import com.hcl.BookMyGround.dto.JwtResponse;
+import com.hcl.BookMyGround.dto.UserDTO;
+import com.hcl.BookMyGround.model.User;
+import com.hcl.BookMyGround.repository.UserRepository;
 import com.hcl.BookMyGround.security.JwtHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +18,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -33,22 +36,41 @@ public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody JwtRequest request) {
+    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 
         // Authenticate user
-        Authentication authentication = authenticationManager.authenticate(
+        authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
         // Load user details
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
 
-        // Generate token
+        // Generate JWT token
         String token = jwtHelper.generateToken(userDetails);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        return ResponseEntity.ok(response);
+        // Fetch user from DB
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Convert to DTO
+        UserDTO userDTO = UserDTO.builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .contactNumber(user.getContactNumber())
+                .build();
+
+        // Prepare response
+        JwtResponse jwtResponse = JwtResponse.builder()
+                .jwtToken(token)
+                .user(userDTO)
+                .build();
+
+        return ResponseEntity.ok(jwtResponse);
     }
 }

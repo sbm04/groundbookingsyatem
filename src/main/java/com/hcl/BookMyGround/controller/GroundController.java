@@ -26,5 +26,12 @@ public class GroundController {
     }
     // find ground city wise and type cricket
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Ground>> searchGroundsByCityAndType(
+            @RequestParam String city,
+            @RequestParam String type) {
+        List<Ground> filtered = groundService.findGroundsByLocationAndType(city, type);
+        return ResponseEntity.ok(filtered);
+    }
 
 }

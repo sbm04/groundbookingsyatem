@@ -20,4 +20,9 @@ public class GroundService {
     public List<Ground> getAllGrounds() {
         return groundRepository.findAll();
     }
+
+    public List<Ground> findGroundsByLocationAndType(String location, String type) {
+        return groundRepository.findByLocationIgnoreCaseAndTypeIgnoreCase(location, type);
+    }
+
 }
