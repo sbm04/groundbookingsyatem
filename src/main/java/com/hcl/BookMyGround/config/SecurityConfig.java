@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //Allow preflight OPTIONS requests
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/users/register").permitAll() // Allow user registration without authentication
                         // --- Swagger endpoints: permit all ---
                         .requestMatchers(
                                 "/v3/api-docs/**",

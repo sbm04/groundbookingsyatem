@@ -11,10 +11,6 @@ public class PaymentService {
     private PaymentRepository paymentRepository;
 
     public Payment processPayment(Payment payment) {
-        // Simulate payment processing logic
-        // For example, integrate with a payment gateway here
-
-        // For now, assume payment is always successful
         payment.setPaymentStatus("SUCCESS");
         return paymentRepository.save(payment);
     }

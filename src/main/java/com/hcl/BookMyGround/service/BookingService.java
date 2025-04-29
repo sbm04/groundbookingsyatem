@@ -174,32 +174,4 @@ public class BookingService {
 
 
 
-
-//    private BookingDTO mapToDTO(Booking booking) {
-//        User user = booking.getUser();
-//        UserDTO userDTO = new UserDTO(user.getUserId(), user.getName(), user.getContactNumber(), user.getEmail());
-//
-//        Payment payment = booking.getPayment();
-//        PaymentDTO paymentDTO = null;
-//        if (payment != null) {
-//            paymentDTO = new PaymentDTO();
-//            paymentDTO.setPaymentId(payment.getPaymentId());
-//            paymentDTO.setPaymentStatus(payment.getPaymentStatus());
-//            paymentDTO.setPaymentDate(payment.getPaymentDate());
-//            paymentDTO.setPaymentMethod(payment.getPaymentMethod());
-//            paymentDTO.setAmount(payment.getAmount());
-//        }
-//
-//        BookingDTO dto = new BookingDTO();
-//        dto.setBookingId(booking.getBookingId());
-//        dto.setUser(userDTO);
-//        dto.setBookingDate(booking.getBookingDate());
-//        dto.setStatus(String.valueOf(booking.getStatus()));
-//        dto.setTotalAmount(booking.getTotalAmount());
-//        dto.setPayment(paymentDTO);
-//
-//        return dto;
-//    }
-
-
 }
