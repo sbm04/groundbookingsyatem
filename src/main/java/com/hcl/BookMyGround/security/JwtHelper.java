@@ -50,7 +50,8 @@ public class JwtHelper {
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", user.getRoles()); // include roles
-        return doGenerateToken(claims, String.valueOf(user.getUserId())); // userId as subject
+//        return doGenerateToken(claims, String.valueOf(user.getUserId())); // userId as subject
+        return doGenerateToken(claims, user.getEmail()); // use email as subject
     }
 
 //    // Existing fallback method (optional, can be deprecated if you only use User)
