@@ -38,7 +38,6 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
-
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 
@@ -47,15 +46,12 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
-        // Load user details
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-
-        // Generate JWT token
-        String token = jwtHelper.generateToken(userDetails);
-
         // Fetch user from DB
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Generate JWT token using User object
+        String token = jwtHelper.generateToken(user);
 
         // Convert to DTO
         UserDTO userDTO = UserDTO.builder()
@@ -73,4 +69,5 @@ public class AuthController {
 
         return ResponseEntity.ok(jwtResponse);
     }
+
 }

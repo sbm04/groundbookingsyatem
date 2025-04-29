@@ -27,6 +27,7 @@ public class UserService {
     private BookingRepository bookingRepository;
 
     public UserDTO register(User user) {
+
         // Encode password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);

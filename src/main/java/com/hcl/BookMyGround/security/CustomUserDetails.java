@@ -1,11 +1,14 @@
 package com.hcl.BookMyGround.security;
 
+
+import com.hcl.BookMyGround.enums.Role;
 import com.hcl.BookMyGround.model.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -15,13 +18,11 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
-    public Long getUserId() {
-        return user.getUserId();
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // you can enhance this with roles if needed
+        return user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -31,7 +32,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail(); // or user.getName() if you prefer
+        return user.getEmail(); // using email as username
     }
 
     @Override
@@ -52,5 +53,17 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Long getUserId() {
+        return user.getUserId();
+    }
+
+    public Set<Role> getRoles() {
+        return user.getRoles();
+    }
+
+    public String getName() {
+        return user.getName();
     }
 }

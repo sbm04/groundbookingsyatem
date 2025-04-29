@@ -1,5 +1,6 @@
 package com.hcl.BookMyGround.security;
 
+import com.hcl.BookMyGround.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -45,12 +46,18 @@ public class JwtHelper {
         return expiration.before(new Date());
     }
 
-    //generate token for user
-    public String generateToken(UserDetails userDetails) {
+    // ✅ New method to generate token with userId as subject and roles as claim
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        claims.put("roles", user.getRoles()); // include roles
+        return doGenerateToken(claims, String.valueOf(user.getUserId())); // userId as subject
     }
 
+//    // Existing fallback method (optional, can be deprecated if you only use User)
+//    public String generateToken(UserDetails userDetails) {
+//        Map<String, Object> claims = new HashMap<>();
+//        return doGenerateToken(claims, userDetails.getUsername()); // typically email
+//    }
     //while creating the token -
     //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
     //2. Sign the JWT using the HS512 algorithm and secret key.

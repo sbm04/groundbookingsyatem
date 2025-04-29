@@ -42,6 +42,10 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
+
+                        // --- Role-based endpoints ---
+                        .requestMatchers("/admin/**").hasRole("ADMIN")   // Example: /admin/grounds
+                        .requestMatchers("/user/**").hasRole("USER")     // Example: /user/bookings
                         // --------------------------------------
                         .requestMatchers("/test").authenticated()
                         .anyRequest().authenticated()
